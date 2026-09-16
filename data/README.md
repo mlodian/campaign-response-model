@@ -44,7 +44,7 @@ The client's code, readable name and description for each field are below. The r
 | Issue | Evidence | Handling |
 |---|---|---|
 | Post-call leakage | Call duration is only known after the call. All 4 zero-second calls have response 0. Its Information Value is 1.93, the highest of any field. | Excluded from features. Kept only for a leakage benchmark. |
-| Sentinel value | `days_since_prev_campaign = 999` (no previous campaign) on 96% of rows | Replaced by a recency band (`never`, 0–3, 4–6, 7–14, 15+ days). The raw column is not used. |
+| Sentinel value | `days_since_prev_campaign = 999` (no previous campaign) on 96% of rows | Replaced by a recency band (`never`, 0–3, 4–6, 7–14, 15+ days). The raw column is not used: as a number, 999 would read as "contacted 999 days ago". |
 | "Unknown" categories | For example, 21% of `credit_in_default` values are unknown | Kept as a category; unknown default status converts at less than half the rate of "no". |
 | Very rare levels | `credit_in_default = yes` appears on 3 rows; one education level on 17 rows | Levels below 1% of training rows are grouped into "Other (rare)" (learned on training data). |
 | Long tails | `call_attempts` runs up to 56 (99th percentile 14); `prev_campaign_attempts` up to 7 | Capped at the training-set 99th percentile inside the model pipeline |

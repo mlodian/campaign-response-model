@@ -54,9 +54,12 @@ No. Two kinds of variables are removed:
 
 The table below lists each audit step and how many rows or cells it touched. Call attempts has a long tail
 (capped at the training 99th percentile inside the model); age extremes (up to 98) are plausible and kept.
-`days_since_prev_campaign = 999` is a code for "never contacted", not a number of days, so it is replaced by a
-recency band."""),
+`days_since_prev_campaign = 999` is a code for "never contacted", not a number of days, so it becomes a "never"
+level in a recency band. As a number, the model would depend on an arbitrary code and the
+real 0–27 day range would be squashed. Accuracy is the same either way (table below), so correctness decides."""),
     code("""pd.read_csv(R / "audit_log.csv")"""),
+    code("""sens = pd.read_csv(R / "sensitivity_checks.csv")
+sens[sens.check == "999 sentinel"].pivot(index="model", columns="variant", values="test_pr_auc")"""),
     code("""show("02_outliers.png")
 show("01_leakage_call_duration.png")"""),
     md("""## 3. Is there discriminating power among the variables?
@@ -92,8 +95,11 @@ Take-up is 11.2%. The data is **not** resampled, for three reasons:
 - The profit cut-off relies on calibrated probabilities.
 - The evaluation metrics already handle imbalance: PR-AUC, lift, KS and profit.
 
-Class weights were not needed; the cut-off does the balancing."""),
+Class weights were not needed; the cut-off does the balancing. The second table below tests this: oversampling
+takers to 50/50 barely changes the ranking but inflates the scores, so the profit cut-off would call almost
+everyone."""),
     code("""json.loads((R / "data_summary.json").read_text())"""),
+    code("""sens[sens.check == "class balance"].drop(columns=["check", "cv_pr_auc"])"""),
     md("""## 6. Different scales, encoding, grouping and binning
 
 | Question | Logistic models | Tree models |

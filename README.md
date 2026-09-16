@@ -111,6 +111,7 @@ campaign-response-model/
 │   └── pipeline.py                 # CLI entry point
 ├── notebooks/                      # executed walkthrough
 ├── scripts/build_notebook.py
+├── scripts/sensitivity_checks.py  # 999-code and resampling alternatives
 ├── tests/                          # pytest: preparation, encoders, selection, economics
 ├── data/README.md                  # data dictionary, issues found and how they are handled
 ├── docs/                           # literature review and references for the method choices
@@ -131,7 +132,11 @@ No. Six of the 20 candidates are removed, and each decision is recorded in [`fea
 **2. What does the data look like? Outliers or corrections?**
 - No nulls.
 - 11 exact duplicates, which are dropped.
-- The value 999 in "days since previous campaign" is a code, not a number of days. It is replaced by a recency band.
+- The value 999 in "days since previous campaign" is a code for "never contacted" (96% of rows), not a number of days. It becomes a "never" level in a recency band (0–3, 4–6, 7–14, 15+ days, never). A separate contacted flag is also built, but selection drops it because the "never" level already carries it. Why a category rather than a number:
+  - As a number, the model reads "never contacted" as "contacted 999 days ago" and depends on an arbitrary code. A list from another provider that marks it as −1 or blank would be silently misread.
+  - In the one-hot logistic model, standardising a column dominated by 999 squeezes the real 0–27 day range to almost nothing.
+  - Coefficients, SHAP values, averages (≈ 960 days against a true 6) and drift checks on that column would all mislead.
+  - Accuracy does not decide it. Keeping 999 as a number, or using the day count for contacted customers plus a flag, changes test PR-AUC by at most 0.004 for any model ([`sensitivity_checks.csv`](reports/sensitivity_checks.csv)).
 - "Unknown" categories are kept, because they carry signal.
 - Call attempts has a long tail (maximum 56, 99th percentile 14) and is capped. Age up to 98 is plausible and kept.
 
@@ -341,7 +346,7 @@ These are the issues this data makes easy to get wrong. The 999 and resampling c
 |---|---|
 | Is call duration an input? | It is only known after the call. Including it raises CV PR-AUC from 0.445 to 0.641 on paper, but the model cannot be used before dialling. |
 | Is validation done on unseen campaign periods? | A random split re-uses the same periods; pooled ROC-AUC falls from 0.81 to 0.72 on held-out periods. |
-| Is the 999 "never contacted" code treated as a number? | It should be a category. Here the mistake costs almost nothing: every model's PR-AUC moves by 0.004 or less. Trees split 999 off cleanly, and the "nonexistent" previous outcome carries the same flag. It still breaks averages (mean ≈ 960 days against a true 6), correlations and any rule based on days. |
+| Is the 999 "never contacted" code treated as a number? | It should be a category. Here the mistake does not cost accuracy: every model's PR-AUC moves by 0.004 or less, because trees split 999 off cleanly and the "nonexistent" previous outcome carries the same flag. It is still a correctness and robustness issue: the model depends on an arbitrary code (risky for lists from other providers), and averages (≈ 960 days against a true 6), correlations and day-based rules mislead. |
 | Was the data resampled to balance the classes? | Ranking barely changes (test PR-AUC 0.462 against 0.468), but the average score rises from 0.11 to 0.39 and the Brier score doubles. At the 0.20 cut-off the model would then call 97% of the list and lose ≈ 1.46M instead of earning ≈ 406k. |
 | How was the cut-off chosen? | 0.5 calls 4.6% of the list; the profit-based cut-off (≈ 0.20) calls about 15% and earns more. |
 | Are preprocessing and feature selection fitted on training data only? | Otherwise test results are optimistic. |

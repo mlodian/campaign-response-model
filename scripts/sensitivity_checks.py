@@ -1,6 +1,7 @@
 """Two preparation choices, tested against the alternative a reviewer might have used.
 
-1. The 999 "never contacted" code: recency band (as built) vs the raw day count with 999 left in.
+1. The 999 "never contacted" code: recency band (as built) vs the raw day count with 999 left in, and vs
+   the day count for contacted customers only (0 for the rest) plus a previously-contacted flag.
 2. Class balance: no resampling (as built) vs random oversampling of takers to 50/50.
 
 Writes reports/sensitivity_checks.csv. Run after `make pipeline`:
@@ -21,7 +22,11 @@ from campaign_response.modeling import model_ladder
 from campaign_response.pipeline import CANDIDATE_NUMERIC, TARGET, split
 
 cfg = load_config()
-train, test = split(pd.read_parquet(cfg.clean_file), cfg)
+df = pd.read_parquet(cfg.clean_file)
+contacted = df["previously_contacted"] == 1
+df["days_if_contacted"] = df["days_since_prev_campaign"].where(contacted, 0)
+df["previously_contacted"] = df["previously_contacted"].astype(str)
+train, test = split(df, cfg)
 y, yt = train[TARGET].to_numpy(), test[TARGET].to_numpy()
 selected = json.loads((cfg.reports / "selected_features.json").read_text())["features"]
 params = {k: v for k, v in json.loads((cfg.reports / "best_params.json").read_text()).items() if k != "model"}
@@ -54,9 +59,11 @@ def scores(pipe, feats, idx=None):
 
 rows = []
 raw = ["days_since_prev_campaign" if f == "prev_contact_recency" else f for f in selected]
+flagged = [f for f in selected if f != "prev_contact_recency"] + ["days_if_contacted", "previously_contacted"]
 cv = StratifiedKFold(folds, shuffle=True, random_state=seed)
 for variant, feats, numeric in [("Recency band (as built)", selected, CANDIDATE_NUMERIC),
-                                ("999 kept as a number of days", raw, CANDIDATE_NUMERIC + ["days_since_prev_campaign"])]:
+                                ("999 kept as a number of days", raw, CANDIDATE_NUMERIC + ["days_since_prev_campaign"]),
+                                ("Days if contacted + contacted flag", flagged, CANDIDATE_NUMERIC + ["days_if_contacted"])]:
     lad = ladder(feats, numeric)
     for name in MODELS:
         cv_pr = [average_precision_score(y[va], clone(lad[name]).fit(train[feats].iloc[tr], y[tr])
