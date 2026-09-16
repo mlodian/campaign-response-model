@@ -220,6 +220,11 @@ def step_evaluate(cfg: Config) -> None:
     bands.to_csv(cfg.reports / "campaign_band_cutoffs.csv", index=False)
     scen["band_cutoffs_net_profit"] = float(bands["net_profit"].iloc[-1])
     scen["band_cutoffs_customers_called"] = float(bands["called"].iloc[-1])
+    # The same answers from the development sample's out-of-fold confusion matrix
+    m_dev = ev.classification_metrics(train[TARGET].to_numpy(), oof, threshold)
+    economics.campaign_table(m_dev, cfg["campaign"]).to_csv(
+        cfg.reports / "campaign_economics_development.csv", index=False)
+    scen["development_sample"] = economics.scenario_summary(m_dev, cfg["campaign"])
     (cfg.reports / "campaign_scenarios.json").write_text(json.dumps(scen, indent=2, default=float))
     log.info("Campaign: expected net profit %.0f; lost opportunity %.0f; band cut-offs %.0f",
              scen["a_expected_net_profit"], scen["b_lost_opportunity_total"], scen["band_cutoffs_net_profit"])

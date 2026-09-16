@@ -11,5 +11,18 @@
   "model_vs_call_everyone": 1944369.8199485568,
   "share_of_perfect_captured": 0.36077916993947523,
   "band_cutoffs_net_profit": 422326.37896541867,
-  "band_cutoffs_customers_called": 1300.1333714394589
+  "band_cutoffs_customers_called": 1300.1333714394589,
+  "development_sample": {
+    "value_per_sale": 1001.0,
+    "customers_called": 1409.4398170831291,
+    "expected_sales": 623.468887800098,
+    "a_expected_net_profit": 388301.0779029887,
+    "b_lost_opportunity_total": 735637.3509717458,
+    "b_missed_sales_profit_fn": 499846.07218683657,
+    "b_wasted_call_cost_fp": 235791.27878490934,
+    "perfect_targeting_profit": 1123938.4288747346,
+    "call_everyone_profit": -1539216.8871468233,
+    "model_vs_call_everyone": 1927517.965049812,
+    "share_of_perfect_captured": 0.34548251748251746
+  }
 }

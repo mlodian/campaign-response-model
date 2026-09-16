@@ -3,7 +3,8 @@
 Campaign assumptions:
 
 * the confusion matrix on the list has the same percentages as on the
-  development (test) sample;
+  test sample (the pipeline also reports the development sample's
+  out-of-fold percentages);
 * everyone called qualifies (100% approval);
 * the risk-band mix (High / Medium / Low) applies equally to takers and
   non-takers, i.e. risk band is independent of the response prediction;

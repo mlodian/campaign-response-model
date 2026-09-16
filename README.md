@@ -285,7 +285,7 @@ Within-period figures are weighted means over periods with at least 10 takers an
 ## Campaign economics
 
 **Assumptions:**
-- The list of 10,000 customers has the same confusion-matrix percentages as the test sample. The test sample is used because it is the one sample the model never saw. Applying the out-of-fold rates from the development (training) sample instead gives ≈ 388k, so the answer is not sensitive to this choice.
+- The list of 10,000 customers has the same confusion-matrix percentages as the model's sample. The headline uses the test sample, the one sample the model never saw. The development (training) sample's out-of-fold rates are shown alongside ([`campaign_economics_development.csv`](reports/campaign_economics_development.csv)); the two agree to within about 5%.
 - Everyone called qualifies.
 - The risk-band mix (10% High, 25% Medium, 65% Low) applies equally to takers and non-takers.
 - A customer who is not called generates neither profit nor cost.
@@ -305,6 +305,18 @@ Within-period figures are weighted means over periods with at least 10 takers an
 - 246,600 spent on calls that did not convert (false positives).
 
 If "lost opportunity" is read narrowly as sales the model failed to call, the answer is the first component alone: ≈ 472,000.
+
+**How the numbers are built.** For each band *b* with list share *s_b* and per-sale profit *v_b*, and confusion-matrix rates *r* scaled to 10,000 customers:
+- called takers = 10,000 × *r_TP* × *s_b* (likewise for the other three cells);
+- (a) net profit = Σ_b (called takers_b × *v_b*) − 300 × called non-takers;
+- (b) lost opportunity = Σ_b (missed takers_b × *v_b*) + 300 × called non-takers, which equals perfect-targeting profit minus (a).
+
+**Test sample vs development sample.**
+
+| Sample | Customers called | Sales | (a) Net profit | (b) Lost opportunity | of which missed sales | of which wasted calls |
+|---|---:|---:|---:|---:|---:|---:|
+| Test (headline) | 1,474 | 652 | 405,624 | 718,677 | 472,035 | 246,642 |
+| Development (out-of-fold) | 1,409 | 623 | 388,301 | 735,637 | 499,846 | 235,791 |
 
 **Context.**
 - Calling all 10,000 customers would lose ≈ 1,538,700, so the model is worth ≈ 1.94M relative to calling everyone.

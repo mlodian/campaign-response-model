@@ -205,9 +205,9 @@ pd.read_csv(R / "period_breakdown.csv")"""),
     md("""## 16. Bonus: campaign economics on the 10,000-customer list
 
 Assumptions:
-- The list has the same confusion-matrix percentages as the test sample. The test sample is the one the model never
-  saw. Using the out-of-fold rates from the development sample instead gives about 388k. As section 15 shows, this
-  assumption holds only for a list drawn from the same mix of periods.
+- The list has the same confusion-matrix percentages as the test sample, the one the model never saw. The same
+  answers from the development sample's out-of-fold rates are shown next to it (388k and 736k). As section 15
+  shows, this assumption holds only for a list drawn from the same mix of periods.
 - The per-sale profits are already net of the call cost; the 300 applies only when there is no take-up.
 - Every customer called qualifies.
 - The risk-band mix (10/25/65%) applies equally to predicted takers and non-takers.
@@ -220,7 +220,10 @@ Questions:
   narrowly as missed sales only, it is the first component (about 472k)."""),
     code("""econ = pd.read_csv(R / "campaign_economics.csv")
 econ"""),
-    code("""pd.Series(json.loads((R / "campaign_scenarios.json").read_text()))"""),
+    code("""scen = json.loads((R / "campaign_scenarios.json").read_text())
+dev = scen.pop("development_sample")
+pd.DataFrame({"test sample": pd.Series(scen), "development sample (out-of-fold)": pd.Series(dev)})"""),
+    code("""pd.read_csv(R / "campaign_economics_development.csv")"""),
     md("## 17. Scoring a new list"),
     code("""bundle = joblib.load(cfg.models / "response_model.joblib")
 sample = raw.sample(5, random_state=3)
