@@ -335,14 +335,14 @@ If "lost opportunity" is read narrowly as sales the model failed to call, the an
 
 ## What to check in an in-house response model
 
-These are the issues this data makes easy to get wrong. Each changes the reported performance materially.
+These are the issues this data makes easy to get wrong. The 999 and resampling choices were tested against the alternative ([`sensitivity_checks.csv`](reports/sensitivity_checks.csv), `make sensitivity`).
 
 | Check | Why it matters here |
 |---|---|
 | Is call duration an input? | It is only known after the call. Including it raises CV PR-AUC from 0.445 to 0.641 on paper, but the model cannot be used before dialling. |
 | Is validation done on unseen campaign periods? | A random split re-uses the same periods; pooled ROC-AUC falls from 0.81 to 0.72 on held-out periods. |
-| Is the 999 "never contacted" code treated as a number? | It makes "days since previous contact" look like a huge value, not a category. |
-| Was the data resampled to balance the classes? | Resampling distorts the probabilities, and the call cut-off depends on them. |
+| Is the 999 "never contacted" code treated as a number? | It should be a category. Here the mistake costs almost nothing: every model's PR-AUC moves by 0.004 or less. Trees split 999 off cleanly, and the "nonexistent" previous outcome carries the same flag. It still breaks averages (mean ≈ 960 days against a true 6), correlations and any rule based on days. |
+| Was the data resampled to balance the classes? | Ranking barely changes (test PR-AUC 0.462 against 0.468), but the average score rises from 0.11 to 0.39 and the Brier score doubles. At the 0.20 cut-off the model would then call 97% of the list and lose ≈ 1.46M instead of earning ≈ 406k. |
 | How was the cut-off chosen? | 0.5 calls 4.6% of the list; the profit-based cut-off (≈ 0.20) calls about 15% and earns more. |
 | Are preprocessing and feature selection fitted on training data only? | Otherwise test results are optimistic. |
 

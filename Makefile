@@ -1,7 +1,7 @@
 PY ?= .venv/bin/python
 export PYTHONPATH := $(CURDIR)/src
 
-.PHONY: setup prepare train figures evaluate periods pipeline notebook test
+.PHONY: setup prepare train figures evaluate periods sensitivity pipeline notebook test
 
 setup:        ## create the virtual environment and install pinned dependencies
 	python3 -m venv .venv
@@ -25,6 +25,9 @@ periods:      ## hold out whole campaign periods; ranking within a period
 
 pipeline:     ## everything, end to end
 	$(PY) -m campaign_response.pipeline --steps all
+
+sensitivity:  ## 999-code and resampling alternatives (after pipeline)
+	$(PY) scripts/sensitivity_checks.py
 
 notebook:     ## re-execute the walkthrough notebook in place
 	$(PY) -m jupyter nbconvert --to notebook --execute --inplace notebooks/campaign_response_walkthrough.ipynb
