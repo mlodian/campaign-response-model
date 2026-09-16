@@ -1,0 +1,20 @@
+{
+  "rows": 34989,
+  "take_up_rate": 0.11229243476521192,
+  "features_selected": [
+    "number_of_employees",
+    "consumer_confidence_index",
+    "prev_contact_recency",
+    "previous_outcome",
+    "last_contact_month",
+    "consumer_price_index",
+    "contact_medium",
+    "prev_campaign_attempts",
+    "employment_type",
+    "age",
+    "credit_in_default",
+    "education",
+    "call_attempts",
+    "civil_status"
+  ]
+}

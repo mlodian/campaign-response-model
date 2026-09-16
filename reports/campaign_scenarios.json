@@ -1,0 +1,15 @@
+{
+  "value_per_sale": 1001.0,
+  "customers_called": 1473.7544060207679,
+  "expected_sales": 651.6147470705915,
+  "a_expected_net_profit": 405624.4641326092,
+  "b_lost_opportunity_total": 718676.76478994,
+  "b_missed_sales_profit_fn": 472034.8671048871,
+  "b_wasted_call_cost_fp": 246641.8976850529,
+  "perfect_targeting_profit": 1124301.2289225492,
+  "call_everyone_profit": -1538745.3558159475,
+  "model_vs_call_everyone": 1944369.8199485568,
+  "share_of_perfect_captured": 0.36077916993947523,
+  "band_cutoffs_net_profit": 422326.37896541867,
+  "band_cutoffs_customers_called": 1300.1333714394589
+}

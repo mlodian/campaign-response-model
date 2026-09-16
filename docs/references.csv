@@ -1,0 +1,20 @@
+id,citation,url,review_sections,claim_used
+moro2014dss,"Moro, Cortez & Rita (2014) Decision Support Systems 62:22-31",https://doi.org/10.1016/j.dss.2014.03.001,"1,5","Telemarketing success prediction for a Portuguese bank (data 2008-2013); compared LR, DT, NN, SVM; 79% of subscribers reached by calling the top-ranked half"
+moro2014uci,"Moro, Rita & Cortez (2014) Bank Marketing dataset, UCI",https://doi.org/10.24432/C5K306,1,"Public dataset: 20 inputs (bank-client, last-contact, other, social/economic context), 999 = not previously contacted, 11.3% yes; duration should be discarded for a realistic predictive model"
+kaufman2012,"Kaufman, Rosset, Perlich & Stitelman (2012) ACM TKDD 6(4)",https://doi.org/10.1145/2382577.2382579,1,Definition of leakage
+hand1997,Hand & Henley (1997) JRSS A 160(3):523-541,https://doi.org/10.1111/j.1467-985X.1997.00078.x,2,Review of statistical classification in consumer credit scoring
+siddiqi2006,"Siddiqi (2006) Credit Risk Scorecards, Wiley",https://doi.org/10.1002/9781119201731,2,WoE/IV scorecard practice; IV bands <0.02/0.1/0.3 derived from Siddiqi; 'suspicious' >0.5 label from later practitioner sources
+obrien2007,O'Brien (2007) Quality & Quantity 41(5):673-690,https://doi.org/10.1007/s11135-006-9018-6,3,"VIF rules of thumb (10, 20, 40) do not by themselves justify dropping variables"
+bergsma2013,Bergsma (2013) J Korean Stat Soc 42(3):323-328,https://doi.org/10.1016/j.jkss.2012.10.002,3,Bias-corrected Cramer's V
+goorbergh2022,van den Goorbergh et al. (2022) JAMIA 29(9):1525-1534,https://doi.org/10.1093/jamia/ocac093,4,LR simulations: under/over-sampling and SMOTE miscalibrate risks without improving AUC
+saito2015,Saito & Rehmsmeier (2015) PLOS ONE 10(3):e0118432,https://doi.org/10.1371/journal.pone.0118432,4,PR more informative than ROC on imbalanced data
+lessmann2015,"Lessmann, Baesens, Seow & Thomas (2015) EJOR 247(1):124-136",https://doi.org/10.1016/j.ejor.2015.05.030,5,Credit scoring benchmark: several classifiers beat industry-standard LR; heterogeneous ensembles best
+breiman2001,Breiman (2001) Machine Learning 45(1):5-32,https://doi.org/10.1023/A:1010933404324,5,Random forests
+ke2017,Ke et al. (2017) NeurIPS 30:3146-3154,https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree,5,LightGBM efficient GBDT
+bergstra2012,Bergstra & Bengio (2012) JMLR 13:281-305,https://jmlr.org/papers/v13/bergstra12a.html,6,Random search more efficient than grid search
+niculescu2005,Niculescu-Mizil & Caruana (2005) ICML 625-632,https://doi.org/10.1145/1102351.1102430,7,Boosted trees show sigmoid probability distortion; random forests less clear-cut
+elkan2001,Elkan (2001) IJCAI 973-978,https://cseweb.ucsd.edu/~elkan/rescale.pdf,7,Cost-optimal threshold p* = c_FP/(c_FP+c_FN) when correct decisions cost 0
+verbeke2012,Verbeke et al. (2012) EJOR 218(1):211-229,https://doi.org/10.1016/j.ejor.2011.09.031,7,Profit-driven evaluation for customer analytics models
+yurdakul2020,Yurdakul & Naranjo (2020) J Risk Model Validation 14(4):89-100,https://doi.org/10.21314/JRMV.2020.227,8,PSI properties; discusses and critiques the 0.1 rule of thumb (sample-size dependence)
+lundberg2017,Lundberg & Lee (2017) NeurIPS 30,https://papers.nips.cc/paper/7062-a-unified-approach-to-interpreting-model-predictions,8,SHAP additive attributions
+roberts2017,"Roberts et al. (2017) Ecography 40(8):913-929",https://doi.org/10.1111/ecog.02881,3,"Random CV on grouped or structured data overstates performance on new groups; block the folds by group"

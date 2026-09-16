@@ -1,0 +1,15 @@
+feature,mean_abs_shap
+number_of_employees,0.37466696193702037
+contact_medium,0.1651977773245853
+consumer_confidence_index,0.11436239218640266
+last_contact_month,0.07062340660458767
+prev_contact_recency,0.0683724275814294
+age,0.06449584031907418
+previous_outcome,0.06442173903352735
+education,0.05242544054096213
+credit_in_default,0.051641842985846065
+call_attempts,0.04895973522922864
+employment_type,0.042913441314315945
+consumer_price_index,0.04186344424101548
+civil_status,0.02118049592115606
+prev_campaign_attempts,0.01726797490197758

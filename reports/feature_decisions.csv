@@ -1,0 +1,21 @@
+feature,decision,reason
+last_contact_weekday,drop,IV 0.008 < 0.02
+has_home_loan,drop,IV 0.001 < 0.02
+has_personal_loan,drop,IV 0.001 < 0.02
+interbank_rate_3m,drop,|Spearman| 0.93 with number_of_employees (higher IV)
+employment_variation_rate,drop,|Spearman| 0.94 with number_of_employees (higher IV)
+previously_contacted,drop,Cramer's V 1.00 with prev_contact_recency (higher IV)
+number_of_employees,keep,IV 1.114 (suspicious)
+consumer_confidence_index,keep,IV 0.740 (suspicious)
+prev_contact_recency,keep,IV 0.548 (suspicious)
+previous_outcome,keep,IV 0.543 (suspicious)
+last_contact_month,keep,IV 0.477 (strong)
+consumer_price_index,keep,IV 0.469 (strong)
+contact_medium,keep,IV 0.241 (medium)
+prev_campaign_attempts,keep,IV 0.228 (medium)
+employment_type,keep,IV 0.193 (medium)
+age,keep,IV 0.136 (medium)
+credit_in_default,keep,IV 0.130 (medium)
+education,keep,IV 0.058 (weak)
+call_attempts,keep,IV 0.052 (weak)
+civil_status,keep,IV 0.032 (weak)

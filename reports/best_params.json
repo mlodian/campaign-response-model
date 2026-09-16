@@ -1,0 +1,10 @@
+{
+  "model": "LightGBM (tuned)",
+  "model__colsample_bytree": 0.8238450602706812,
+  "model__learning_rate": 0.010011989304553251,
+  "model__min_child_samples": 22,
+  "model__n_estimators": 508,
+  "model__num_leaves": 13,
+  "model__reg_lambda": 1.8415478124479583,
+  "model__subsample": 0.7669644012595116
+}

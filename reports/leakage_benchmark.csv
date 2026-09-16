@@ -1,0 +1,3 @@
+variant,pr_auc,roc_auc
+Without call duration (deployable),0.44515936924098015,0.7787083779534749
+With call duration (leaky),0.6414008836725452,0.9450063366674556

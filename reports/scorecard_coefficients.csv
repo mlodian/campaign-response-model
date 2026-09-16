@@ -1,0 +1,15 @@
+feature,coefficient
+number_of_employees,0.6622382522303794
+prev_contact_recency,0.657502727190227
+call_attempts,0.324494140533527
+contact_medium,0.30045034721492403
+last_contact_month,0.2926900182381808
+age,0.2851215937414936
+credit_in_default,0.2826362810400324
+education,0.23064928071880272
+civil_status,0.1694315342466829
+employment_type,0.15087150016622355
+previous_outcome,-0.13811996575471527
+consumer_price_index,-0.12420158139367374
+prev_campaign_attempts,-0.08787451699522729
+consumer_confidence_index,0.08152314484437881

@@ -1,0 +1,9 @@
+step,rows,affected,note
+raw records,35000,0,"21 columns, 0 nulls"
+drop exact duplicates,34989,11,identical across all 21 fields
+decode 999 sentinel,34989,33700,days_since_prev_campaign = 999 -> 'never' recency band + previously_contacted flag
+check sentinel vs previous outcome,34989,0,'nonexistent' previous outcome must coincide with 999 (0 conflicts expected)
+keep 'unknown' as a category,34989,10838,unknown is informative (e.g. credit-in-default unknown converts at less than half the rate)
+leakage: call duration,34989,4,known only after the call; 4 zero-second calls all have response 0; excluded from features
+flag extreme call attempts,34989,346,above the 99th percentile; capped inside the model pipeline (cap learned on training data)
+final modelling table,34989,23,rows / columns

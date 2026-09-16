@@ -1,0 +1,48 @@
+# Pipeline configuration. Paths are relative to the repository root.
+
+data:
+  raw_file: data/raw/dataset.csv
+  separator: "|"
+  processed_file: data/processed/modelling_table.parquet
+  target: Response
+
+# Only known after the call has taken place (data dictionary), so never a model input.
+leakage_columns: [call_duration_s]   # Feature_dn_1
+
+split:
+  test_size: 0.30
+  random_state: 42
+
+cv:
+  folds: 5
+
+tuning:
+  n_iter: 25
+  folds: 3
+
+feature_selection:
+  min_information_value: 0.02      # below this a variable is "not useful" (credit-scoring convention)
+  max_abs_spearman: 0.85           # above this two numeric variables are treated as redundant
+  max_vif: 10.0
+  max_cramers_v: 0.80               # above this two categorical variables are treated as redundant
+  rare_category_share: 0.01        # categories rarer than this are grouped
+
+outliers:
+  cap_quantile: 0.99               # upper cap for count variables (learned on training data)
+
+# Campaign economics (Finance and Risk inputs).
+campaign:
+  list_size: 10000
+  cost_not_taken_up: -300          # net profit when a called customer does not take up the offer
+  risk_bands:                      # share of the list, net profit when the offer is taken up
+    High:   {share: 0.10, profit_taken_up: 285.0}
+    Medium: {share: 0.25, profit_taken_up: 705.0}
+    Low:    {share: 0.65, profit_taken_up: 1225.0}
+
+explain:
+  shap_sample: 3000
+
+outputs:
+  reports_dir: reports
+  figures_dir: reports/figures
+  models_dir: models
